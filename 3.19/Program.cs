@@ -53,7 +53,6 @@ namespace _3._19
             playerPos = new position { x = 1, y = 1, view = 'S' };
             goalPos = new position { x = 13, y = 8 };
 
-
             // 맵설정
             map = new int[,]
             {
@@ -258,40 +257,41 @@ namespace _3._19
         static void Move(ConsoleKey key, ref position playerPos, int[,] map)
         {
             position targetPos = playerPos;
-            
+
             switch (key)
             {
-
-                case ConsoleKey.A:
-                case ConsoleKey.LeftArrow:
-                    targetPos.x = playerPos.x - 1; //targetPos.x--;
-                    playerPos.view = 'A';
+                case ConsoleKey.LeftArrow: // 시계반대 방향 회전
+                    if (playerPos.view == 'W') playerPos.view = 'A';
+                    else if (playerPos.view == 'A') playerPos.view = 'S';
+                    else if (playerPos.view == 'S') playerPos.view = 'D';
+                    else if (playerPos.view == 'D') playerPos.view = 'W';
+                    return;
+                case ConsoleKey.RightArrow: // 시계 방향 회전
+                    if (playerPos.view == 'W') playerPos.view = 'D';
+                    else if (playerPos.view == 'D') playerPos.view = 'S';
+                    else if (playerPos.view == 'S') playerPos.view = 'A';
+                    else if (playerPos.view == 'A') playerPos.view = 'W';
+                    return;
+                case ConsoleKey.UpArrow: // 앞으로 이동
+                    if (playerPos.view == 'W') targetPos.y = playerPos.y - 1;
+                    else if (playerPos.view == 'S') targetPos.y = playerPos.y + 1;
+                    else if (playerPos.view == 'A') targetPos.x = playerPos.x - 1;
+                    else if (playerPos.view == 'D') targetPos.x = playerPos.x + 1;
                     break;
-                case ConsoleKey.D:
-                case ConsoleKey.RightArrow:
-                    targetPos.x = playerPos.x + 1;
-                    playerPos.view = 'D';
-                    break;
-                case ConsoleKey.W:
-                case ConsoleKey.UpArrow:
-                    targetPos.y = playerPos.y - 1;
-                    playerPos.view = 'W';
-                    break;
-                case ConsoleKey.S:
-                case ConsoleKey.DownArrow:
-                    targetPos.y = playerPos.y + 1;
-                    playerPos.view = 'S';
+                case ConsoleKey.DownArrow: // 뒤로 이동
+                    if (playerPos.view == 'W') targetPos.y = playerPos.y + 1;
+                    else if (playerPos.view == 'S') targetPos.y = playerPos.y - 1;
+                    else if (playerPos.view == 'A') targetPos.x = playerPos.x + 1;
+                    else if (playerPos.view == 'D') targetPos.x = playerPos.x - 1;
                     break;
                 default:
-                    break;
+                    return;
             }
-            // 타일 선언
-            int targetTile = map[targetPos.y, targetPos.x]; // 플레이어가 이동할 위치
 
+            int targetTile = map[targetPos.y, targetPos.x];
             if (targetTile == 1) return;
 
             UpdateTile(playerPos, map);
-            // 플레이어가 타겟포지션으로 이동
             playerPos.x = targetPos.x;
             playerPos.y = targetPos.y;
         }
