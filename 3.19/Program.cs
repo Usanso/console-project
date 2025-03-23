@@ -50,12 +50,6 @@ namespace _3._19
             Console.CursorVisible = false;
 
             // 플레이어 위치
-            // playerPos.x = 1;
-            // playerPos.y = 1;
-            // playerPos.view = 'S';
-            // 
-            // goalPos.x = 13;  
-            // goalPos.y = 8;
             playerPos = new position { x = 1, y = 1, view = 'S' };
             goalPos = new position { x = 13, y = 8 };
 
@@ -126,6 +120,20 @@ namespace _3._19
                 }
                 Console.WriteLine();
             }
+            Console.SetCursorPosition(0, 11);
+            Console.WriteLine("@@@@@@@                                                                           @@@@@@@");
+            Console.WriteLine("@      @@@@@@                                                               @@@@@@      @");
+            Console.WriteLine("@            @@@@@@                                                   @@@@@@            @");
+            Console.WriteLine("@                  @@@@@@                                       @@@@@@                  @");
+            Console.WriteLine("@                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                        @");
+            Console.WriteLine("@                            @                             @                            @");
+            Console.WriteLine("@                            @                             @                            @");
+            Console.WriteLine("@                            @                             @                            @");
+            Console.WriteLine("@                        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                        @");
+            Console.WriteLine("@                  @@@@@@                                       @@@@@@                  @");
+            Console.WriteLine("@            @@@@@@                                                   @@@@@@            @");
+            Console.WriteLine("@      @@@@@@                                                               @@@@@@      @");
+            Console.WriteLine("@@@@@@@                                                                           @@@@@@@");
         }
 
         static void Render(int[,] map, position playerPos)
@@ -139,28 +147,13 @@ namespace _3._19
         static void PersonView(int[,] map, position playerPos)
         {
             // 1인칭 시점으로 좌 앞 우 확인
-            viewCheck(map, playerPos);
-            // 미로 아래에 1인칭 시점으로 벽이랑 땅을 보여주고 싶었는데 시간이 부족..
-            
+            int[] view = viewCheck(map, playerPos);
 
-            // 왼쪽 화면
-            Console.SetCursorPosition(0, 11);
-            Console.WriteLine("왼쪽");
-            // 벽인지 빈땅인지 골인지 확인
-
-            
-            // 중앙 화면
-            Console.SetCursorPosition(30, 11);
-            Console.WriteLine("중앙");
-
-            
-            // 오른쪽 화면
-            Console.SetCursorPosition(60, 11);
-            Console.WriteLine("오른쪽");
-
+            // 1인칭 시점 화면 출력
+            RenderFirstPersonView(view);
         }
 
-        static void viewCheck(int[,] map, position playerPos)
+        static int[] viewCheck(int[,] map, position playerPos)
         {
             // 동서남북
             int east = playerPos.x + 1;
@@ -199,11 +192,23 @@ namespace _3._19
                     center = map[playerPos.y, east];
                     right = map[south, playerPos.x];
                     break;
-
-                default:
-                    return;
             }
+            return new int[] { left, center, right };
         }
+
+        static void RenderFirstPersonView(int[] view)
+        {
+
+            Console.SetCursorPosition(12, 17);
+            Console.WriteLine(view[0] == 1 ? "벽" : " "); // 왼쪽 벽 여부
+
+            Console.SetCursorPosition(44, 17);
+            Console.WriteLine(view[1] == 1 ? "벽" : " "); // 중앙 벽 여부
+
+            Console.SetCursorPosition(77, 17);
+            Console.WriteLine(view[2] == 1 ? "벽" : " "); // 오른쪽 벽 여부
+        }
+
 
         static void PrintPlayer(position playerPos)
         {
