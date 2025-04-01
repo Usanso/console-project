@@ -8,49 +8,32 @@ namespace textRPG.Scenes
 {
     public class TitleScene : Scene
     {
-        public override bool Equals(object? obj)
+        public override void Render()
         {
-            return base.Equals(obj);
+            Console.WriteLine("**********************************");
+            Console.WriteLine("*          레전드 RPG            *");
+            Console.WriteLine("**********************************");
         }
 
-        public override int GetHashCode()
+        public override void Result() { }
+
+        public override void Choice()
         {
-            return base.GetHashCode();
+            Console.WriteLine("1. 게임시작");
+            Console.WriteLine("2. 불러오기(미구현)");
+            Console.WriteLine("3. 게임종료");
         }
 
-        public override void Input()
-        {
-            throw new NotImplementedException();
-        }
+        public override void Wait() { }
 
         public override void Next()
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Render()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Result()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SelectChoice()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string? ToString()
-        {
-            return base.ToString();
-        }
-
-        public override void wait()
-        {
-            throw new NotImplementedException();
+            switch (input)
+            {
+                case ConsoleKey.D1:
+                    Game.ChangeScene("Town");
+                    break;
+            }
         }
     }
 }
